@@ -13,10 +13,13 @@ using namespace std;
 
 // Fibonacci without dianmic programming
 int fibonacci(int n) {
+    //base case: if n is 0 or 1, return n
     if (n <= 1) {
+        //return n
         return n;
     }
     else {
+        //recursive case: return the sum of the previous two fibonacci numbers
         return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
