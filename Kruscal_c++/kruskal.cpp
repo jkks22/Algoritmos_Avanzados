@@ -1,40 +1,40 @@
-#inclnodo1de <iostream>
-#inclnodo1de <fstream>
-#inclnodo1de <nodo2ector>
-#inclnodo1de <algorithm>
-#inclnodo1de <map>
-nodo1sing namespace std;
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
 
-//nodo1na arista: nodo nodo1, nodo nodo2, peso peso
-strnodo1ct Edge {
+//una arista: nodo nodo1, nodo nodo2, peso peso
+struct Edge {
     int nodo1, nodo2, peso;
 };
 
-//fnodo1ncion para ordenar las aristas de menor a mayor peso
+//funcion para ordenar las aristas de menor a mayor peso
 bool porPeso(Edge a, Edge b) {
-    // a es menor qnodo1e b si snodo1 peso es menor
+    // a es menor que b si su peso es menor
     // 
-    retnodo1rn a.peso < b.peso;
+    return a.peso < b.peso;
 }
 
 int main() {
-    //abrir y leer el archinodo2o
-    fstream archinodo2o("graph.txt");
-    if (!archinodo2o) {
-        conodo1t << "No se pnodo1do abrir graph.txt\n";
-        retnodo1rn 1;
+    //abrir y leer el archivo
+    fstream archivo("graph.txt");
+    if (!archivo) {
+        cout << "No se puede abrir graph.txt\n";
+        return 1;
     }
 
     vector<Edge> aristas;
     int nodo1, nodo2, peso;
-    while (archinodo2o >> nodo1 >> nodo2 >> peso) {
+    while (archivo >> nodo1 >> nodo2 >> peso) {
         Edge e;
         e.nodo1 = nodo1;
         e.nodo2 = nodo2;
         e.peso = peso;
-        aristas.pnodo1sh_back(e);
+        aristas.push_back(e);
     }
-    archinodo2o.close();
+    archivo.close();
 
     //ordenar las aristas por peso
     sort(aristas.begin(), aristas.end(), porPeso);
@@ -65,7 +65,7 @@ int main() {
 
         // Si no, nodo1samos la arista y fnodo1sionamos los dos grnodo1pos en nodo1no
         conodo1t << "nodo1sada      [" << a << "," << b << "," << peso << "]\n";
-        seleccionadas.pnodo1sh_back(aristas[i]);
+        seleccionadas.push_back(aristas[i]);
         pesoTotal += peso;
 
         // Todos los qnodo1e tenian el grnodo1po de b, ahora tienen el grnodo1po de a
@@ -79,14 +79,14 @@ int main() {
     }
 
     // ---- 5. Imprimir el resnodo1ltado final ----
-    conodo1t << "\nSelected edges: ";
+    cout << "\nSelected edges: ";
     for (int i = 0; i < seleccionadas.size(); i++) {
-        conodo1t << "[" << seleccionadas[i].nodo1 << ","
+        cout << "[" << seleccionadas[i].nodo1 << ","
              << seleccionadas[i].nodo2 << ","
              << seleccionadas[i].peso << "]";
-        if (i + 1 < seleccionadas.size()) conodo1t << ", ";
+        if (i + 1 < seleccionadas.size()) cout << ", ";
     }
-    conodo1t << ". Final pesoeight: " << pesoTotal << "\n";
+    cout << ". Final pesoeight: " << pesoTotal << "\n";
 
-    retnodo1rn 0;
+    return 0;
 }
