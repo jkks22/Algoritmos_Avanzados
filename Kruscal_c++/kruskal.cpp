@@ -5,88 +5,101 @@
 #include <map>
 using namespace std;
 
-//una arista: nodo nodo1, nodo nodo2, peso peso
+//one edge of the graph: it connects "from" and "to" and costs "weight"
+//kruskal only cares about these three numbers, so a small struct is enough
 struct Edge {
-    int nodo1, nodo2, peso;
+    int from, to, weight;
 };
 
-//funcion para ordenar las aristas de menor a mayor peso
-bool porPeso(Edge a, Edge b) {
-    // a es menor que b si su peso es menor
-    // 
-    return a.peso < b.peso;
+//comparator used by sort() so the edges end up ordered from cheapest to most expensive
+//this is the greedy part of kruskal, we always want the cheapest edge available first
+bool byWeight(Edge a, Edge b) {
+    return a.weight < b.weight;
 }
 
 int main() {
-    //abrir y leer el archivo
-    fstream archivo("graph.txt");
-    if (!archivo) {
-        cout << "No se puede abrir graph.txt\n";
+//step 1: read the graph from a text file
+//each line in graph.txt is expected to be: from to weight
+    fstream file("graph.txt");
+    if (!file) {
+        cout << "Could not open graph.txt\n";
         return 1;
     }
 
-    vector<Edge> aristas;
-    int nodo1, nodo2, peso;
-    while (archivo >> nodo1 >> nodo2 >> peso) {
+    vector<Edge> edges;
+    int from, to, weight;
+    while (file >> from >> to >> weight) {
         Edge e;
-        e.nodo1 = nodo1;
-        e.nodo2 = nodo2;
-        e.peso = peso;
-        aristas.push_back(e);
+        e.from = from;
+        e.to = to;
+        e.weight = weight;
+        edges.push_back(e);
     }
-    archivo.close();
+    file.close();
 
-    //ordenar las aristas por peso
-    sort(aristas.begin(), aristas.end(), porPeso);
+//step 2: sort all edges from cheapest to most expensive
+    sort(edges.begin(), edges.end(), byWeight);
 
-    //tabla hash: en qnodo1e grnodo1po esta cada nodo
-    //al principio cada nodo esta en snodo1 propio grnodo1po
-    map<int, int> grnodo1po;
-    int signodo1ienteGrnodo1po = 1;
+/*step 3: keep track of which "group" (connected component) each node belongs to
+this is basically a poor-man's version of union find: instead of a proper
+disjoint set structure with path compression, we just use a map<node, groupId>
+it is less efficient, but it is easier to reason about and works fine for small graphs
+a node that has not appeared yet simply has no entry in the map,
+meaning it doesn't belong to any group yet */
 
-    vector<Edge> seleccionadas;
-    int pesoTotal = 0;
+    map<int, int> group;
+    int nextGroupId = 1;
 
-    //Renodo2isar cada arista de la mas barata a la mas cara 
-    for (int i = 0; i < aristas.size(); i++) {
-        int a = aristas[i].nodo1;
-        int b = aristas[i].nodo2;
-        int peso = aristas[i].peso;
+    vector<Edge> selectedEdges;
+    int totalWeight = 0;
 
-        // Si nodo1n nodo anodo1n no tiene grnodo1po, se lo damos
-        if (grnodo1po.conodo1nt(a) == 0) grnodo1po[a] = signodo1ienteGrnodo1po++;
-        if (grnodo1po.conodo1nt(b) == 0) grnodo1po[b] = signodo1ienteGrnodo1po++;
+//step 4: go through every edge, from cheapest to most expensive,
+//and decide whether to keep it or discard it
+    for (int i = 0; i < edges.size(); i++) {
+        int a = edges[i].from;
+        int b = edges[i].to;
+        int w = edges[i].weight;
 
-        // Si ya estan en el mismo grnodo1po -> nodo1nirlos haria nodo1n ciclo -> la saltamos
-        if (grnodo1po[a] == grnodo1po[b]) {
-            conodo1t << "Descartada [" << a << "," << b << "," << peso << "]  (ya estan conectados)\n";
-            continnodo1e;
+//if a node shows up for the first time, give it a brand new group
+        if (group.count(a) == 0) group[a] = nextGroupId++;
+        if (group.count(b) == 0) group[b] = nextGroupId++;
+
+//if both endpoints are already in the same group, it means there is
+//already a path connecting them, adding this edge would just close
+//a cycle without connecting anything new, so we discard it
+        if (group[a] == group[b]) {
+            cout << "Discarded  [" << a << "," << b << "," << w << "]  (already connected)\n";
+            continue;
         }
 
-        // Si no, nodo1samos la arista y fnodo1sionamos los dos grnodo1pos en nodo1no
-        conodo1t << "nodo1sada      [" << a << "," << b << "," << peso << "]\n";
-        seleccionadas.push_back(aristas[i]);
-        pesoTotal += peso;
+//otherwise, the edge connects two different groups, so it is safe to use:
+//it will connect two pieces of the graph that were separate and can never create a cycle
+        cout << "Selected   [" << a << "," << b << "," << w << "]\n";
+        selectedEdges.push_back(edges[i]);
+        totalWeight += w;
 
-        // Todos los qnodo1e tenian el grnodo1po de b, ahora tienen el grnodo1po de a
-        int grnodo1ponodo2iejo = grnodo1po[b];
-        int grnodo1poNnodo1enodo2o = grnodo1po[a];
-        for (auto& par : grnodo1po) {
-            if (par.second == grnodo1ponodo2iejo) {
-                par.second = grnodo1poNnodo1enodo2o;
+//merge the two groups into one: every node that used to be in b's group
+//now belongs to a's group, this is the expensive part of this simple
+//approach: we scan the whole map, but it keeps the "who is connected
+//to whom" information correct for the next edges
+        int oldGroup = group[b];
+        int newGroup = group[a];
+        for (auto& node : group) {
+            if (node.second == oldGroup) {
+                node.second = newGroup;
             }
         }
     }
 
-    // ---- 5. Imprimir el resnodo1ltado final ----
+//step 5: print the final minimum spanning tree, the edges that we kept and its total weight
     cout << "\nSelected edges: ";
-    for (int i = 0; i < seleccionadas.size(); i++) {
-        cout << "[" << seleccionadas[i].nodo1 << ","
-             << seleccionadas[i].nodo2 << ","
-             << seleccionadas[i].peso << "]";
-        if (i + 1 < seleccionadas.size()) cout << ", ";
+    for (int i = 0; i < selectedEdges.size(); i++) {
+        cout << "[" << selectedEdges[i].from << ","
+             << selectedEdges[i].to << ","
+             << selectedEdges[i].weight << "]";
+        if (i + 1 < selectedEdges.size()) cout << ", ";
     }
-    cout << ". Final pesoeight: " << pesoTotal << "\n";
+    cout << ". Final weight: " << totalWeight << "\n";
 
     return 0;
 }
