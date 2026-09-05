@@ -1,0 +1,38 @@
+INICIO
+
+//1. abrir y leer el archivo
+abrir graph.txt
+
+//2. guardar todas las aristas
+mientras haya datos:
+guardar nodo1, nodo2 y peso
+cerrar archivo
+
+//3. ordenar las aristas de menor a mayor peso
+ordenar aristas por peso
+
+//4. al principio cada nodo esta en su propio grupo
+crear grupo para cada nodo
+crear lista de aristas seleccionadas
+pesoTotal = 0
+
+//5. revisar las aristas de la mas barata a la mas cara
+para cada arista:
+obtener nodo1, nodo2 y peso
+
+//6. si los nodos ya estan en el mismo grupo, agregar la arista crearia un ciclo
+si nodo1 y nodo2 estan en el mismo grupo:
+descartar arista
+si no:
+seleccionar arista
+agregar arista a seleccionadas
+sumar peso al pesoTotal
+
+//7. unir los grupos de los dos nodos
+unir grupo de nodo1 con grupo de nodo2
+
+//8. mostrar resultado
+mostrar aristas seleccionadas
+mostrar pesoTotal
+
+FIN
