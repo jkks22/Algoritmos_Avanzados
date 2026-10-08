@@ -2,11 +2,6 @@
 & Change history:
 Created by: Daniela Angulo on October 4th, 2026
 
-* Team:
-- Daniela Angulo A01028153
-- Uriel Anzures A01277273
-- Josue Gomez A01
-
 ? DESCRIPTION
 Program that analyzes two data transmissions looking for malicious code.
 It reads 5 fixed-name files and:
@@ -65,6 +60,7 @@ int main(){
     string m2=leerarchivo("mcode2.txt");
     string m3=leerarchivo("mcode3.txt");
 
+    cout << "Part 1. mcode in transmitions:" << endl;
     mcode(s1, m1);
     mcode(s1, m2);
     mcode(s1, m3);
@@ -72,6 +68,11 @@ int main(){
     mcode(s2, m2);
     mcode(s2, m3);
 
+    cout << "Part 2. longest palindrome in both transmitions:" << endl;
+    longestPalindrome(s1);
+    longestPalindrome(s2);
+
+    cout << "Part 3. longest substring between transmitions:" << endl;
     longestsub(s1, s2);
 
     return 0; 
