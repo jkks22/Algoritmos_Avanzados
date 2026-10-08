@@ -4,7 +4,7 @@ Created by: Daniela Angulo on October 4th, 2026
 
 * Team:
 - Daniela Angulo A01028153
-- Uriel Anzures A027
+- Uriel Anzures A01277273
 - Josue Gomez A01
 
 ? DESCRIPTION
@@ -31,13 +31,42 @@ None. The 5.txt files must exist in the same folder as the executable.
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <string>
 #include "malicious_code.h"
 #include "longest_palindrome.h"
 #include "longest_substring.h"
 
 using namespace std;
 
+//Esto habre y lee el contenigo del archivo, para regresarlo en un solo string y poderlo analizar mas facil
+string leerarchivo(string n){
+    //literal abre el archivo(ya lo usamos con hajmed)
+    ifstream archivo(n);
+
+    //Guardamos cada cadena que se vaya leyendo
+    string linea;
+
+    //string que va a corresponder al contenido final
+    string cont="";
+
+    while(getline(archivo, linea)){
+        // Pega la línea al contenido asi los saltos de línea no se guardan
+        cont+=linea;
+    }
+    return cont;
+}
+
 int main(){
+
+    string carpeta="test_files/";
+
+    string s1=leerarchivo(carpeta+ "transmission1.txt");
+
+    cout << s1.size() << endl;
+
+    
+
 
 
 
