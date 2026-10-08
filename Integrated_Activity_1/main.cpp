@@ -59,16 +59,20 @@ string leerarchivo(string n){
 
 int main(){
 
-    string carpeta="test_files/";
+    string s1=leerarchivo("transmission1.txt");
+    string s2=leerarchivo("transmission2.txt");
+    string m1=leerarchivo("mcode1.txt");
+    string m2=leerarchivo("mcode2.txt");
+    string m3=leerarchivo("mcode3.txt");
 
-    string s1=leerarchivo(carpeta+ "transmission1.txt");
+    mcode(s1, m1);
+    mcode(s1, m2);
+    mcode(s1, m3);
+    mcode(s2, m1);
+    mcode(s2, m2);
+    mcode(s2, m3);
 
-    cout << s1.size() << endl;
-    string t1="s1.txt";
-    string t2="s2.txt";
+    longestsub(s1, s2);
 
-    longestsub("ABCDEF", "XXCDEYY");
-    mcode("A1B2C3", "FF");
-    
-    return 0;
+    return 0; 
 };
