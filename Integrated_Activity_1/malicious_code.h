@@ -18,18 +18,18 @@ the mcodeY.txt code starts.
 #include <string>
 using namespace std;
 
-void mcode(string t,string m){
+void mcode(const string& transmissions,const string& mcode){
     // i es la posición de la transmisión donde pruebo si empieza el mcode
-    for(int i=0; i < t.size();i++){
+    for(int i = 0; i < transmissions.size(); i++){
         //counter
         int c=0;
         // Se repite mientras no me salga del mcode ni de la transmisión
-        while(c<m.size() && i+c<t.size()){
-            if (t[i + c] != m[c]){break;}
+        while(c<mcode.size() && i+c<transmissions.size()){
+            if (transmissions[i + c] != mcode[c]){break;}
                c++;
         }
         // Si c llegó al tamaño del mcode, coincidieron todos los caracteres
-        if (c == m.size()){
+        if (c == mcode.size()){
             cout << "true " << i + 1 << endl;
             return;
         }

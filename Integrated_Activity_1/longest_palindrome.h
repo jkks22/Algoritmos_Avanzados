@@ -39,8 +39,7 @@ void longestPalindrome(const string& s) {
     //right = the last position it covers
     //maxLen = size of the biggest palindrome found so far
     //maxIndex = the middle  of the longest palindrome found.
-    int center = 0, right = 0;
-    int maxLen = 0, maxIndex = 0;
+    int center = 0, right = 0, maxLen = 0, maxIndex = 0;
 
     for (int i = 0; i < newString.length(); i++) {  //for every position in the new string
         int mirror = center - (i - center);

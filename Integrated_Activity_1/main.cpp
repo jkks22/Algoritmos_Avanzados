@@ -60,20 +60,23 @@ int main(){
     string m2=leerarchivo("mcode2.txt");
     string m3=leerarchivo("mcode3.txt");
 
-    cout << "Part 1. mcode in transmitions:" << endl;
+    cout << "--- Part 1. mcode in transmissions: ---" << endl;
     mcode(s1, m1);
     mcode(s1, m2);
     mcode(s1, m3);
     mcode(s2, m1);
     mcode(s2, m2);
     mcode(s2, m3);
+    cout << endl;
 
-    cout << "Part 2. longest palindrome in both transmitions:" << endl;
+    cout << "--- Part 2. longest palindrome in both transmissions: ---" << endl;
     longestPalindrome(s1);
     longestPalindrome(s2);
+    cout << endl;
 
-    cout << "Part 3. longest substring between transmitions:" << endl;
+    cout << "--- Part 3. longest substring between transmissions: ---" << endl;
     longestsub(s1, s2);
+    cout << endl;
 
     return 0; 
 };

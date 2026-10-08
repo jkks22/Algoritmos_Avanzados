@@ -10,25 +10,24 @@ of the first file where the longest common substring between both stream files i
 
 */
 
-#ifndef LONGEST_SUBSTRING_H
-#define LONGEST_SUBSTRING_H
+#ifndef longest_substring_H
+#define longest_substring_H
 
 #include <iostream>
-
 #include <string>
 using namespace std;
 
-void longestsub(string s1,string s2){
+void longestsub(const string& s1,const string& s2){
     //largo del substring
     int largo=0;
     //Posicion en el primer string empezando desde 1
     int inicio=0;
-    //i para s1, j para s1
+    //i para s1, j para s2
     for(int i=0; i <s1.size() ;i++){
         for (int j=0; j < s2.size();j++){
             //contador para los caracteres iguales
             int c=0;
-            //bucle para con limite para no salir nos arreglos y generar basura(ademas claro de lleavr el contador).
+            //bucle con limite para no salir nos arreglos y generar basura(ademas claro de lleavr el contador).
             while(i+c<s1.size() && j+c<s2.size()){
                 //caracteres distintos=salir del bucle
                 if (s1[i+c] != s2[j+c]){break;}
@@ -43,7 +42,7 @@ void longestsub(string s1,string s2){
         }
     }
     // Inicio y fin 
-    cout << inicio + 1<< " " << inicio + largo << endl;
+    cout << inicio + 1 << " " << inicio + largo << endl;
 
 }
 
