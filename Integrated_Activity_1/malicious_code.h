@@ -15,10 +15,30 @@ the mcodeY.txt code starts.
 #define malicious_code_H
 
 #include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <string>
 using namespace std;
+
+void mcode(string t,string m){
+    // i es la posición de la transmisión donde pruebo si empieza el mcode
+    for(int i=0; i < t.size();i++){
+        //counter
+        int c=0;
+        // Se repite mientras no me salga del mcode ni de la transmisión
+        while(c<m.size() && i+c<t.size()){
+            if (t[i + c] != m[c]){break;}
+               c++;
+        }
+        // Si c llegó al tamaño del mcode, coincidieron todos los caracteres
+        if (c == m.size()){
+            cout << "true " << i + 1 << endl;
+            return;
+        }
+    }
+    // Si el ciclo terminó sin encontrarlo
+    cout << "false" << endl;
+}
+
+
 
 
 
