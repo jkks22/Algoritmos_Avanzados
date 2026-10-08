@@ -68,10 +68,7 @@ int main(){
     string t2="s2.txt";
 
     longestsub("ABCDEF", "XXCDEYY");
+    mcode("A1B2C3", "FF");
     
-
-
-
-
     return 0;
 };
