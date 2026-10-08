@@ -64,7 +64,10 @@ int main(){
     string s1=leerarchivo(carpeta+ "transmission1.txt");
 
     cout << s1.size() << endl;
+    string t1="s1.txt";
+    string t2="s2.txt";
 
+    longestsub("ABCDEF", "XXCDEYY");
     
 
 
