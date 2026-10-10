@@ -1,7 +1,4 @@
 /*
-& Change history:
-Created by: Daniela Angulo on October 4th, 2026
-
 ? PART 2.
 Assuming that malicious code always has "mirrored" code 
 (chars palindromes), it would be a good idea to look for this type of code 
@@ -80,6 +77,6 @@ void longestPalindrome(const string& s) {
     int end = start + maxLen - 1; //- 1 because the start char is already counted
 
     cout << start << " " << end << endl;
-}
+};
 
 #endif

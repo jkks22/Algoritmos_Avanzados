@@ -1,8 +1,4 @@
 /*
-& Change history:
-Created by: Daniela Angulo on October 4th, 2026
-
-
 ? PART 3. 
 The program analyzes how similar the transmission files are, it 
 should display the starting position and the ending position (starting at 1) 
@@ -44,7 +40,7 @@ void longestsub(const string& s1,const string& s2){
     // Inicio y fin 
     cout << inicio + 1 << " " << inicio + largo << endl;
 
-}
+};
 
 
 #endif

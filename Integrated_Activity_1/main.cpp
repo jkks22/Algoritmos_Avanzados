@@ -1,7 +1,4 @@
 /*
-& Change history:
-Created by: Daniela Angulo on October 4th, 2026
-
 ? DESCRIPTION
 Program that analyzes two data transmissions looking for malicious code.
 It reads 5 fixed-name files and:

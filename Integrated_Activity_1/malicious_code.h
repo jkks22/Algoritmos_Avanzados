@@ -1,7 +1,4 @@
 /*
-& Change history:
-Created by: Daniela Angulo on October 4th, 2026 
-
 ? PART 1. 
 The program must analyze if the contents of the files mcode1.txt, mcode2.txt, 
 and mcode3.txt are contained in the files transmission1.txt and transmission2.txt and 
@@ -18,28 +15,44 @@ the mcodeY.txt code starts.
 #include <string>
 using namespace std;
 
-void mcode(const string& transmissions,const string& mcode){
-    // i es la posición de la transmisión donde pruebo si empieza el mcode
-    for(int i = 0; i < transmissions.size(); i++){
-        //counter
-        int c=0;
-        // Se repite mientras no me salga del mcode ni de la transmisión
-        while(c<mcode.size() && i+c<transmissions.size()){
-            if (transmissions[i + c] != mcode[c]){break;}
-               c++;
+void mcode(const string& transmissions, const string& pattern){
+    int n = transmissions.size();
+    int m = pattern.size();
+
+    // tabla LPS: lps[k] = largo del prefijo más largo de pattern[0..k] que también es sufijo
+    vector<int> lps(m, 0);
+    int len = 0;
+    for(int k = 1; k < m; k++){
+        while(len > 0 && pattern[k] != pattern[len]){
+            len = lps[len - 1];
         }
-        // Si c llegó al tamaño del mcode, coincidieron todos los caracteres
-        if (c == mcode.size()){
-            cout << "true " << i + 1 << endl;
+        if(pattern[k] == pattern[len]){
+            len++;
+        }
+        lps[k] = len;
+    }
+
+    // j = cuántos caracteres del mcode llevo coincidiendo
+    int j = 0;
+    for(int i = 0; i < n; i++){
+        while(j > 0 && transmissions[i] != pattern[j]){
+            j = lps[j - 1];
+        }
+        if(transmissions[i] == pattern[j]){
+            j++;
+        }
+        // si j llegó a m, encontré el mcode completo
+        if(j == m){
+            cout << "true " << i - m + 2 << endl;
             return;
         }
     }
-    // Si el ciclo terminó sin encontrarlo
+
+    // si terminó el ciclo sin encontrarlo
     cout << "false" << endl;
-}
 
 
-
+};
 
 
 
