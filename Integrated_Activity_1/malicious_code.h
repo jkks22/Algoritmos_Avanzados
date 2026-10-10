@@ -17,7 +17,7 @@ using namespace std;
 
 //^ KMP algorithm
 
-void mcode(const string& transmissions, const string& pattern){
+void mcode(const string& transmission, const string& pattern){
     int patternSize = pattern.size();
     int transmissionSize = transmission.size();
 
@@ -39,11 +39,11 @@ void mcode(const string& transmissions, const string& pattern){
     //~ step 2: compare the pattern (mcode) with the transmission
     int j = 0; //number of mcode chars matched
     for(int i = 0; i < transmissionSize; i++){ //for every char in the transmission
-        while(j > 0 && transmissions[i] != pattern[j]){ //mismatch after some chars of the pattern matched
+        while(j > 0 && transmission[i] != pattern[j]){ //mismatch after some chars of the pattern matched
             j = lps[j - 1]; //"backtrack" to the prefix of the char, i stays the same
         }
 
-        if(transmissions[i] == pattern[j]){ //both chars match
+        if(transmission[i] == pattern[j]){ //both chars match
             j++; //both j and i continue
         }
 
