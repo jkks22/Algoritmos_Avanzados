@@ -48,7 +48,7 @@ string readFile(const string& n){
 
 int main(){
 
-    string transmission_1 = readFile("tran.txt");
+    string transmission_1 = readFile("transmission1.txt");
     string transmission_2 = readFile("transmission2.txt");
     string mcode_1 = readFile("mcode1.txt");
     string mcode_2 = readFile("mcode2.txt");

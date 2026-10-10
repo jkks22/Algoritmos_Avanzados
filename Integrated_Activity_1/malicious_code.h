@@ -15,45 +15,44 @@ the mcodeY.txt code starts.
 #include <string>
 using namespace std;
 
-void mcode(const string& transmissions, const string& pattern){
-    int n = transmissions.size();
-    int m = pattern.size();
+//^ KMP algorithm
 
-    // tabla LPS: lps[k] = largo del prefijo más largo de pattern[0..k] que también es sufijo
-    vector<int> lps(m, 0);
+void mcode(const string& transmissions, const string& pattern){
+    int patternSize = pattern.size();
+    int transmissionSize = transmission.size();
+
+    //~ step 1: make the lps array to know how much of the pattern can be reused
+    vector<int> lps(patternSize, 0);
     int len = 0;
-    for(int k = 1; k < m; k++){
-        while(len > 0 && pattern[k] != pattern[len]){
-            len = lps[len - 1];
+    for(int k = 1; k < patternSize; k++){
+        while(len > 0 && pattern[k] != pattern[len]){ //if there's a mismatch...
+            len = lps[len - 1]; //...len goes back to check past chars
         }
-        if(pattern[k] == pattern[len]){
+
+        if(pattern[k] == pattern[len]){ //if current char match len char, prefix expand
             len++;
         }
-        lps[k] = len;
+
+        lps[k] = len;  //stores the value
     }
 
-    // j = cuántos caracteres del mcode llevo coincidiendo
-    int j = 0;
-    for(int i = 0; i < n; i++){
-        while(j > 0 && transmissions[i] != pattern[j]){
-            j = lps[j - 1];
+    //~ step 2: compare the pattern (mcode) with the transmission
+    int j = 0; //number of mcode chars matched
+    for(int i = 0; i < transmissionSize; i++){ //for every char in the transmission
+        while(j > 0 && transmissions[i] != pattern[j]){ //mismatch after some chars of the pattern matched
+            j = lps[j - 1]; //"backtrack" to the prefix of the char, i stays the same
         }
-        if(transmissions[i] == pattern[j]){
-            j++;
+
+        if(transmissions[i] == pattern[j]){ //both chars match
+            j++; //both j and i continue
         }
-        // si j llegó a m, encontré el mcode completo
-        if(j == m){
-            cout << "true " << i - m + 2 << endl;
+
+        if(j == patternSize){ //~ complete mcode found
+            cout << "true " << i - patternSize + 2 << endl;
             return;
         }
     }
 
-    // si terminó el ciclo sin encontrarlo
-    cout << "false" << endl;
-
-
+    cout << "false" << endl;  //~ mcode not found
 };
-
-
-
 #endif
