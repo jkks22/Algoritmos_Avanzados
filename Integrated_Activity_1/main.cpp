@@ -31,48 +31,45 @@ None. The 5.txt files must exist in the same folder as the executable.
 
 using namespace std;
 
-//Esto habre y lee el contenigo del archivo, para regresarlo en un solo string y poderlo analizar mas facil
-string leerarchivo(string n){
-    //literal abre el archivo(ya lo usamos con hajmed)
-    ifstream archivo(n);
+//Opens and reads the given .txt file and returns its content as a string
+//  so it can be analyzed easily
+string readFile(const string& n){
+    ifstream file(n);  //open the given file
 
-    //Guardamos cada cadena que se vaya leyendo
-    string linea;
+    string line;  //stores every line read
+    string content = ""; //final string
 
-    //string que va a corresponder al contenido final
-    string cont="";
-
-    while(getline(archivo, linea)){
-        // Pega la línea al contenido asi los saltos de línea no se guardan
-        cont+=linea;
+    while(getline(file, line)){
+        //appends each line read to the final string without the line break
+        content += line; 
     }
-    return cont;
-}
+    return content;
+};
 
 int main(){
 
-    string s1=leerarchivo("transmission1.txt");
-    string s2=leerarchivo("transmission2.txt");
-    string m1=leerarchivo("mcode1.txt");
-    string m2=leerarchivo("mcode2.txt");
-    string m3=leerarchivo("mcode3.txt");
+    string transmission_1 = readFile("tran.txt");
+    string transmission_2 = readFile("transmission2.txt");
+    string mcode_1 = readFile("mcode1.txt");
+    string mcode_2 = readFile("mcode2.txt");
+    string mcode_3 = readFile("mcode3.txt");
 
     cout << "--- Part 1. mcode in transmissions: ---" << endl;
-    mcode(s1, m1);
-    mcode(s1, m2);
-    mcode(s1, m3);
-    mcode(s2, m1);
-    mcode(s2, m2);
-    mcode(s2, m3);
+    mcode(transmission_1, mcode_1);
+    mcode(transmission_1, mcode_2);
+    mcode(transmission_1, mcode_3);
+    mcode(transmission_2, mcode_1);
+    mcode(transmission_2, mcode_2);
+    mcode(transmission_2, mcode_3);
     cout << endl;
 
     cout << "--- Part 2. longest palindrome in both transmissions: ---" << endl;
-    longestPalindrome(s1);
-    longestPalindrome(s2);
+    longestPalindrome(transmission_1);
+    longestPalindrome(transmission_2);
     cout << endl;
 
     cout << "--- Part 3. longest substring between transmissions: ---" << endl;
-    longestsub(s1, s2);
+    longestsub(transmission_1, transmission_2);
     cout << endl;
 
     return 0; 
