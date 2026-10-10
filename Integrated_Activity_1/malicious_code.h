@@ -13,6 +13,7 @@ the mcodeY.txt code starts.
 
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 //^ KMP algorithm

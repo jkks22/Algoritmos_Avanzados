@@ -14,6 +14,7 @@ starts and ends. It can be assumed that this type of code will always be found.
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
