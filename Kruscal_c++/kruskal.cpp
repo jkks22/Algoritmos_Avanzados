@@ -5,14 +5,9 @@
 #include <map>
 using namespace std;
 
-//? an edge: node1, node2, weight
-struct Edge {
-    int node1, node2, weight;
-};
-
 //? function to sort edges from smallest to biggest weight
-bool byWeight(Edge a, Edge b) {
-    return a.weight < b.weight; // a goes before b if it's lighter
+bool byWeight(vector<int> a, vector<int> b) {
+    return a[2] < b[2]; // a goes before b if it's lighter
 }
 
 int main() {
@@ -23,15 +18,11 @@ int main() {
     }
 
     // set up a fresh vector and the variables we need
-    vector<Edge> edges;
+    vector<vector<int>> edges;
     int node1, node2, weight;
 
     while (file >> node1 >> node2 >> weight) { // read into the variables
-        Edge e;
-        e.node1 = node1;
-        e.node2 = node2;
-        e.weight = weight;
-        edges.push_back(e);
+        edges.push_back({node1, node2, weight});
     }
     file.close();
 
@@ -43,14 +34,14 @@ int main() {
     map<int, int> group;
     int nextGroup = 1;
 
-    vector<Edge> selected;
+    vector<vector<int>> selected;
     int totalWeight = 0;
 
     // go through every edge from cheapest to priciest
     for (int i = 0; i < edges.size(); i++) {
-        int a = edges[i].node1;
-        int b = edges[i].node2;
-        int weight = edges[i].weight;
+        int a = edges[i][0];
+        int b = edges[i][1];
+        int weight = edges[i][2];
 
         // if a node doesn't have a group yet, give it one
         if (group.count(a) == 0) group[a] = nextGroup++;
@@ -80,9 +71,9 @@ int main() {
     // 5. print the final result
     cout << "\nSelected edges: ";
     for (int i = 0; i < selected.size(); i++) {
-        cout << "\n" << "[" << selected[i].node1 << ","
-             << selected[i].node2 << ","
-             << selected[i].weight << "]";
+        cout << "\n" << "[" << selected[i][0] << ","
+             << selected[i][1] << ","
+             << selected[i][2] << "]";
         if (i + 1 < selected.size()) cout << ", ";
     }
     cout << "\n" << "Final weight: " << totalWeight << "\n";
