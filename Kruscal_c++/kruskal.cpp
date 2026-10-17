@@ -5,102 +5,87 @@
 #include <map>
 using namespace std;
 
-//one edge of the graph: it connects "from" and "to" and costs "weight"
-//kruskal only cares about these three numbers, so a small struct is enough
+//? an edge: node1, node2, weight
 struct Edge {
-    int from, to, weight;
+    int node1, node2, weight;
 };
 
-//comparator used by sort() so the edges end up ordered from cheapest to most expensive
-//this is the greedy part of kruskal, we always want the cheapest edge available first
+//? function to sort edges from smallest to biggest weight
 bool byWeight(Edge a, Edge b) {
-    return a.weight < b.weight;
+    return a.weight < b.weight; // a goes before b if it's lighter
 }
 
 int main() {
-//step 1: read the graph from a text file
-//each line in graph.txt is expected to be: from to weight
-    fstream file("graph.txt");
-    if (!file) {
-        cout << "Could not open graph.txt\n";
+    fstream file("graph.txt"); // open and read the file
+    if (!file) { // just making sure it actually opened
+        cout << "Can't open graph.txt\n";
         return 1;
     }
 
+    // set up a fresh vector and the variables we need
     vector<Edge> edges;
-    int from, to, weight;
-    while (file >> from >> to >> weight) {
+    int node1, node2, weight;
+
+    while (file >> node1 >> node2 >> weight) { // read into the variables
         Edge e;
-        e.from = from;
-        e.to = to;
+        e.node1 = node1;
+        e.node2 = node2;
         e.weight = weight;
         edges.push_back(e);
     }
     file.close();
 
-//step 2: sort all edges from cheapest to most expensive
+    // sort edges by weight
     sort(edges.begin(), edges.end(), byWeight);
 
-/*step 3: keep track of which "group" (connected component) each node belongs to
-this is basically a poor-man's version of union find: instead of a proper
-disjoint set structure with path compression, we just use a map<node, groupId>
-it is less efficient, but it is easier to reason about and works fine for small graphs
-a node that has not appeared yet simply has no entry in the map,
-meaning it doesn't belong to any group yet */
-
+    // hash table: which group each node belongs to
+    // at the start every node is in its own group
     map<int, int> group;
-    int nextGroupId = 1;
+    int nextGroup = 1;
 
-    vector<Edge> selectedEdges;
+    vector<Edge> selected;
     int totalWeight = 0;
 
-//step 4: go through every edge, from cheapest to most expensive,
-//and decide whether to keep it or discard it
+    // go through every edge from cheapest to priciest
     for (int i = 0; i < edges.size(); i++) {
-        int a = edges[i].from;
-        int b = edges[i].to;
-        int w = edges[i].weight;
+        int a = edges[i].node1;
+        int b = edges[i].node2;
+        int weight = edges[i].weight;
 
-//if a node shows up for the first time, give it a brand new group
-        if (group.count(a) == 0) group[a] = nextGroupId++;
-        if (group.count(b) == 0) group[b] = nextGroupId++;
+        // if a node doesn't have a group yet, give it one
+        if (group.count(a) == 0) group[a] = nextGroup++;
+        if (group.count(b) == 0) group[b] = nextGroup++;
 
-//if both endpoints are already in the same group, it means there is
-//already a path connecting them, adding this edge would just close
-//a cycle without connecting anything new, so we discard it
+        // if they're already in the same group -> joining them would make a cycle -> skip it
         if (group[a] == group[b]) {
-            cout << "Discarded  [" << a << "," << b << "," << w << "]  (already connected)\n";
+            cout << "Skipped [" << a << "," << b << "," << weight << "]  (already connected)\n";
             continue;
         }
 
-//otherwise, the edge connects two different groups, so it is safe to use:
-//it will connect two pieces of the graph that were separate and can never create a cycle
-        cout << "Selected   [" << a << "," << b << "," << w << "]\n";
-        selectedEdges.push_back(edges[i]);
-        totalWeight += w;
+        // otherwise, use the edge and merge both groups into one
+        cout << "used       [" << a << "," << b << "," << weight << "]\n";
+        selected.push_back(edges[i]);
+        totalWeight += weight;
 
-//merge the two groups into one: every node that used to be in b's group
-//now belongs to a's group, this is the expensive part of this simple
-//approach: we scan the whole map, but it keeps the "who is connected
-//to whom" information correct for the next edges
+        // everyone in b's old group now belongs to a's group
         int oldGroup = group[b];
         int newGroup = group[a];
-        for (auto& node : group) {
-            if (node.second == oldGroup) {
-                node.second = newGroup;
+        for (auto& pair : group) {
+            if (pair.second == oldGroup) {
+                pair.second = newGroup;
             }
         }
     }
 
-//step 5: print the final minimum spanning tree, the edges that we kept and its total weight
+    // 5. print the final result
     cout << "\nSelected edges: ";
-    for (int i = 0; i < selectedEdges.size(); i++) {
-        cout << "[" << selectedEdges[i].from << ","
-             << selectedEdges[i].to << ","
-             << selectedEdges[i].weight << "]";
-        if (i + 1 < selectedEdges.size()) cout << ", ";
+    for (int i = 0; i < selected.size(); i++) {
+        cout << "\n" << "[" << selected[i].node1 << ","
+             << selected[i].node2 << ","
+             << selected[i].weight << "]";
+        if (i + 1 < selected.size()) cout << ", ";
     }
-    cout << ". Final weight: " << totalWeight << "\n";
+    cout << "\n" << "Final weight: " << totalWeight << "\n";
 
     return 0;
 }
-
