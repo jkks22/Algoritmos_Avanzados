@@ -1,0 +1,43 @@
+INICIO
+
+//1. abrir y leer el archivo
+abrir graph.txt
+
+//2. guardar todas las aristas
+mientras haya datos:
+guardar nodo1, nodo2 y peso
+cerrar archivo
+
+//3. preparar los arreglos
+pedir nodo_inicial
+para cada nodo:
+distancia[nodo] = infinito
+visitado[nodo] = falso
+anterior[nodo] = -1        //de que nodo venimos
+distancia[nodo_inicial] = 0
+
+//4. repetir hasta visitar todos los nodos
+repetir n veces:
+
+//5. seleccionar el nodo no visitado con la menor distancia
+actual = -1
+para cada nodo:
+si nodo no visitado y (actual == -1 o distancia[nodo] < distancia[actual]):
+actual = nodo
+//si la menor distancia es infinito, los demas no se pueden alcanzar
+si distancia[actual] == infinito:
+terminar
+visitado[actual] = verdadero
+
+//6. actualizar las distancias de los vecinos
+para cada arista (actual, vecino, peso):
+si vecino no visitado y distancia[actual] + peso < distancia[vecino]:
+distancia[vecino] = distancia[actual] + peso
+anterior[vecino] = actual
+
+//7. mostrar resultado
+para cada nodo:
+mostrar nodo, distancia[nodo]
+mostrar camino siguiendo anterior[] desde el nodo hasta nodo_inicial
+
+FIN
