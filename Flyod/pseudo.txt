@@ -1,0 +1,24 @@
+INICIO
+
+//1.abrir y leer el archivo
+abrir graph.txt
+mientras haya datos:
+    guardar nodo1, nodo2 y peso
+cerrar archivo
+
+//2.crear la matriz A
+para cada i, j:
+    si i == j: A[i][j] = 0
+    si hay arista entre i y j: A[i][j] = peso
+    si no: A[i][j] = infinito
+
+//3.probar pasar por cada nodo k
+para k = 0 hasta n-1:
+    para i = 0 hasta n-1:
+        para j = 0 hasta n-1:
+            A[i][j] = min(A[i][j], A[i][k] + A[k][j])
+
+//4.mostrar resultado
+mostrar A
+
+FIN

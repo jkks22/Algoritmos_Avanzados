@@ -1,0 +1,28 @@
+INICIO
+
+//1.datos
+W = capacidad de la mochila
+v[1..n] = valores
+w[1..n] = pesos
+
+//2.crear la tabla llena de ceros
+A[0..n][0..W] = 0
+
+//3.llenar la tabla
+para i = 1 hasta n:
+    para x = 1 hasta W:
+        A[i][x] = A[i-1][x] //no tomar el objeto i
+        si w[i] <= x: //el objeto cabe
+            A[i][x] = max(A[i-1][x], A[i-1][x - w[i]] + v[i]) //Formula
+
+//4.mostrar el valor maximo
+mostrar A[n][W]
+
+//5.ver que objetos se tomaron
+x = W
+para i = n hasta 1:
+    si A[i][x] != A[i-1][x]: //el valor cambio
+        mostrar objeto i
+        x = x - w[i]
+
+FIN
