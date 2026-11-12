@@ -62,16 +62,15 @@ int main() {
     cin >> startCity;
 
     //~ find the index of that city
-    int start = 0;
+    int start = 0;  //if the given city doesnt exist, it starts at Yucatan
     for (int i = 0; i < n; i++) {
         if (names[i] == startCity) {
             start = i;
         }
     }
 
-    //~ the starting city is already visited and is the first in the route
     visited.resize(n, false);
-    visited[start] = true;
+    visited[start] = true; //the first city is already visited and is the first in the route
     route.push_back(start);
 
     //~ solve
