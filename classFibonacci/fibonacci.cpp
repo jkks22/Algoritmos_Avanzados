@@ -11,7 +11,7 @@ Josue Gomez: Fibonacci Tabulation approach without storing the result
 
 using namespace std;
 
-// Fibonacci without dianmic programming
+// Fibonacci without dynamic programming
 int fibonacci(int n) {
     //base case: if n is 0 or 1, return n
     if (n <= 1) {
@@ -42,7 +42,7 @@ int fibonacciMemo(int n) {
     } 
 }
 
-// Fibonacci with tabulation, store the reult  
+// Fibonacci with tabulation, store the result  
 int fibonacciTab(int n){
     //vector to store the result
     vector <int> a = {0,1};

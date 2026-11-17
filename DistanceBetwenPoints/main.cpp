@@ -1,11 +1,11 @@
 /*
-! Declaración de IA: uso de Claude para poder imprimir las Letras de los puntos que están más cercanos.
-Prompt: oye, como puedo pasar las variables que uso en calculateDistance para imprimirlo en la linea 58?
-Respuesta: No puedes usar directamente p1 y p2 de calculateDistance en main: son parámetros locales y 
-desaparecen cuando la función regresa. Además, calculateDistance no sabe cuál par resulta ser el mínimo. 
-Eso solo lo sabe findTheMin. La solución: pásale a findTheMin dos variables por referencia (Point&). 
-Cada vez que encuentre una distancia menor, guarda ahí el par. Como son referencias, el cambio llega hasta main.
-Y en main, usa un par de variables generales para cada mitad y luego quédate con el par de la mitad que ganó
+! AI declaration: Claude was used to print the names of the closest points.
+Prompt: hey, how can I pass the variables I use in calculateDistance to print them on line 58?
+Answer: You can't use p1 and p2 from calculateDistance directly in main: they are local parameters and 
+they disappear when the function returns. Also, calculateDistance doesn't know which pair ends up being the minimum. 
+Only findTheMin knows that. The solution: pass two variables by reference (Point&) to findTheMin. 
+Every time it finds a smaller distance, it saves the pair there. Since they are references, the change reaches main.
+And in main, use a pair of general variables for each half and then keep the pair of the half that won
 */
 
 #include <iostream>
@@ -40,23 +40,23 @@ void sortPointX(vector<Point>& points) {
 //? compares every pair inside one half
 //! best1 and best2 came from Claude's idea
 double findTheMin(vector<Point>& points, int curr, int next, int end,
-     Point& best1, Point& best2, double minDistancia = 1000000) {
+     Point& best1, Point& best2, double minDistance = 1000000) {
     //base case: curr is the last point so there are no more pairs
     if (curr >= end - 1) {
-        return minDistancia;
+        return minDistance;
     }
     //next reached the end, so we move curr one step and start next right after
     if (next == end) {
-        return findTheMin(points, curr + 1, curr + 2, end, best1, best2, minDistancia);
+        return findTheMin(points, curr + 1, curr + 2, end, best1, best2, minDistance);
     }
     //compare the pair (curr, next)
     double currDistance = calculateDistance(points[curr], points[next]);
-    if (currDistance < minDistancia) {  //check for the min
-        minDistancia = currDistance;
+    if (currDistance < minDistance) {  //check for the min
+        minDistance = currDistance;
         best1 = points[curr];  //save the closest pair
         best2 = points[next];
     }
-    return findTheMin(points, curr, next + 1, end, best1, best2, minDistancia);  //for every point in the vector
+    return findTheMin(points, curr, next + 1, end, best1, best2, minDistance);  //for every point in the vector
 }
 
 int main() {

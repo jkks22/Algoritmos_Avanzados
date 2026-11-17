@@ -43,7 +43,7 @@ int main() {
         graph[toList[i]][fromList[i]] = weightList[i]; //? not directed: both ways
     }
 
-    //! step 3: prepare the arrays
+    //! step 4: prepare the arrays
     int start;
     cout << "Start node: ";
     cin >> start;
@@ -53,10 +53,10 @@ int main() {
     vector<int> previous(n, -1);      //? from which node we arrive (to build the path)
     distance[start] = 0;
 
-    //! step 4: repeat until all the nodes are visited
+    //! step 5: repeat until all the nodes are visited
     for (int step = 1; step <= n; step++) {
 
-        //! step 5: select the not visited node with the minimum distance
+        //! step 6: select the not visited node with the minimum distance
         int current = -1;
         for (int i = 0; i < n; i++) {
             if (!visited[i] && (current == -1 || distance[i] < distance[current])) {
@@ -71,7 +71,7 @@ int main() {
         cout << "Step " << step << ": visit node " << current
              << " (distance " << distance[current] << ")\n";
 
-        //! step 6: update the distance of the neighbors of current
+        //! step 7: update the distance of the neighbors of current
         for (int neighbor = 0; neighbor < n; neighbor++) {
             if (graph[current][neighbor] != 0 && !visited[neighbor] &&
                 distance[current] + graph[current][neighbor] < distance[neighbor]) {
@@ -81,7 +81,7 @@ int main() {
         }
     }
 
-    //! step 7: print the result
+    //! step 8: print the result
     cout << "\nNode\tDistance\tPath\n";
     for (int i = 0; i < n; i++) {
         cout << i << "\t";

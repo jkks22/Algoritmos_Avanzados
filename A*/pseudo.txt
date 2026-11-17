@@ -1,0 +1,34 @@
+INICIO
+
+//1. mapa
+grid[filas][columnas] //0 = libre, 1 = pared
+inicio, meta
+
+//2. preparar los arreglos
+para cada celda:
+g[celda] = infinito          //costo real desde el inicio
+anterior[celda] = -1         //de que celda venimos
+cerrada[celda] = falso
+g[inicio] = 0
+abierta = cola de prioridad ordenada por f = g + h
+h(celda) = |fila - fila_meta| + |columna - columna_meta|   //distancia Manhattan
+meter (h(inicio), inicio) en abierta
+
+//3. repetir mientras abierta no este vacia
+actual = sacar la celda con menor f
+si actual esta cerrada: continuar
+cerrada[actual] = verdadero
+si actual == meta: terminar
+
+//4. actualizar los vecinos (arriba, abajo, izquierda, derecha)
+para cada vecino libre y no cerrado:
+si g[actual] + 1 < g[vecino]:
+g[vecino] = g[actual] + 1
+anterior[vecino] = actual
+meter (g[vecino] + h(vecino), vecino) en abierta
+
+//5. mostrar resultado
+si g[meta] == infinito: mostrar "no hay camino"
+si no: mostrar camino siguiendo anterior[] desde la meta hasta el inicio y g[meta]
+
+FIN

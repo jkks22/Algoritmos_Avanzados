@@ -31,7 +31,7 @@ void longestPalindrome(const string& transmission) {
     }
 
     int newString_Length = newString.length();
-    //~ step 2: create L-array where L[i] stores the lenght of the longest palindrome
+    //~ step 2: create L-array where L[i] stores the length of the longest palindrome
     vector<int> L(newString_Length, 0); //all start at 0 because we have not checked anything yet
 
     //center = the middle of the palindrome that reaches the furthest to the right. 
@@ -54,7 +54,7 @@ void longestPalindrome(const string& transmission) {
         //~ step 4: expand to both sides "<- center ->"
         int nextLeft = i - L[i] - 1; //next char to the left
         int nextRight = i + L[i] + 1; //next char to the right
-        while (nextLeft >= 0 && nextRight < newString_Length //its still instide de new string...
+        while (nextLeft >= 0 && nextRight < newString_Length //it's still inside the new string...
             && newString[nextLeft] == newString[nextRight]) { //... and both chars are the same
             L[i]++; //they are equal, so the palindrome grows one more
             nextLeft--; //move one to the left
