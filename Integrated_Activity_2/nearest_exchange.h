@@ -1,5 +1,5 @@
 /*
-? PART 4.
+? PART 3.
 Given the location of several exchanges, decides which exchange is geographically
 closest to a new service contract and displays the distance and its location.
 There is not necessarily one exchange for each neighborhood.
@@ -19,7 +19,7 @@ void nearestExchange(const vector<pair<double, double>>& exchanges, pair<double,
     //~ step 1: compare the contract with every exchange and keep the closest one
     int closest = 0;
     double minDistance = INFINITY;
-    for(int i = 0; i < exchanges.size(); i++){
+    for(int i = 0; i < (int)exchanges.size(); i++){
         double dx = exchanges[i].first - contract.first;
         double dy = exchanges[i].second - contract.second;
         double distance = sqrt(dx * dx + dy * dy);

@@ -5,21 +5,18 @@ It reads the fixed-name file input.txt and:
     - Part 1. Finds the optimal way to wire the neighborhoods with optical fiber.
     - Part 2. Finds the shortest route that visits every neighborhood once
     and returns to the origin.
-    - Part 3. Finds the maximum information flow from the initial node to the final node.
-    - Part 4. Finds the exchange that is geographically closest to each new contract.
+    - Part 3. Finds the exchange that is geographically closest to each new contract.
 
 ? INPUT (input.txt)
 N -> number of neighborhoods
 N x N matrix -> distances in km between neighborhoods (0 = no cable possible)
-N x N matrix -> maximum data transmission capacity between neighborhoods
 N ordered pairs (x,y) -> location of the exchanges
 any number of ordered pairs (x,y) -> location of the new contracts
 
 ? OUTPUT
 1. list of arcs (A,B) to wire with fiber
 2. route for the delivery personnel, starting and ending in A
-3. max information flow from the first to the last neighborhood
-4. closest exchange to each new contract and its distance
+3. closest exchange to each new contract and its distance
 
 */
 
@@ -28,7 +25,6 @@ any number of ordered pairs (x,y) -> location of the new contracts
 #include <vector>
 #include "fiber_wiring.h"
 #include "delivery_route.h"
-#include "max_flow.h"
 #include "nearest_exchange.h"
 
 using namespace std;
@@ -63,7 +59,6 @@ int main(){
         return 1;
     }
     vector<vector<int>> distance = readMatrix(file, n);
-    vector<vector<int>> capacity = readMatrix(file, n);
 
     vector<pair<double, double>> exchanges;
     pair<double, double> point;
@@ -75,7 +70,7 @@ int main(){
         contracts.push_back(point);
     }
 
-    if(!file.eof() || exchanges.size() != n){
+    if(!file.eof() || (int)exchanges.size() != n){
         cout << "input.txt does not have the expected format" << endl;
         return 1;
     }
@@ -88,12 +83,8 @@ int main(){
     deliveryRoute(distance);
     cout << endl;
 
-    cout << "--- Part 3. max information flow: ---" << endl;
-    maxFlow(capacity);
-    cout << endl;
-
-    cout << "--- Part 4. nearest exchange: ---" << endl;
-    for(int i = 0; i < contracts.size(); i++){
+    cout << "--- Part 3. nearest exchange: ---" << endl;
+    for(int i = 0; i < (int)contracts.size(); i++){
         nearestExchange(exchanges, contracts[i]);
     }
     cout << endl;

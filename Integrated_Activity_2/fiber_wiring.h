@@ -39,7 +39,7 @@ void fiberWiring(const vector<vector<int>>& distance){
 
     //~ step 4: take every edge that joins two different groups
     int totalKm = 0;
-    for(int e = 0; e < edges.size(); e++){
+    for(int e = 0; e < (int)edges.size(); e++){
         int weight = edges[e][0];
         int a = edges[e][1];
         int b = edges[e][2];

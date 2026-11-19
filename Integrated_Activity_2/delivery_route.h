@@ -19,7 +19,7 @@ using namespace std;
 //the current city and every city that is still not visited
 int routeBound(int current, int currentCost, const vector<int>& minEdge, const vector<bool>& visited){
     int bound = currentCost + minEdge[current];
-    for(int i = 0; i < visited.size(); i++){
+    for(int i = 0; i < (int)visited.size(); i++){
         if(!visited[i]){
             bound += minEdge[i];
         }
@@ -33,7 +33,7 @@ void searchRoute(const vector<vector<int>>& distance, const vector<int>& minEdge
     int current = route.back();
 
     //~ step 3: all the cities were visited, go back to the start
-    if(route.size() == n){
+    if((int)route.size() == n){
         if(distance[current][0] > 0 && currentCost + distance[current][0] < bestCost){
             bestCost = currentCost + distance[current][0];
             bestRoute = route;
@@ -92,7 +92,7 @@ void deliveryRoute(const vector<vector<int>>& distance){
         cout << "There is no route that visits every neighborhood once" << endl;
         return;
     }
-    for(int i = 0; i < bestRoute.size(); i++){
+    for(int i = 0; i < (int)bestRoute.size(); i++){
         cout << char('A' + bestRoute[i]) << " -> ";
     }
     cout << "A" << endl;
