@@ -15,11 +15,10 @@ using namespace std;
 
 //^ Branch and bound
 
-//lower bound: what we already paid + the cheapest way to leave
-//the current city and every city that is still not visited
+//calculates the minimum the whole route could cost if we keep the current path
 int routeBound(int current, int currentCost, const vector<int>& minEdge, const vector<bool>& visited){
     int bound = currentCost + minEdge[current];
-    for(int i = 0; i < (int)visited.size(); i++){
+    for(int i = 0; i < visited.size(); i++){
         if(!visited[i]){
             bound += minEdge[i];
         }
@@ -27,13 +26,14 @@ int routeBound(int current, int currentCost, const vector<int>& minEdge, const v
     return bound;
 };
 
+//checks every possible route, one city at a time, and keeps the shortest one
 void searchRoute(const vector<vector<int>>& distance, const vector<int>& minEdge, vector<bool>& visited,
                  vector<int>& route, int currentCost, vector<int>& bestRoute, int& bestCost){
     int n = distance.size();
     int current = route.back();
 
     //~ step 3: all the cities were visited, go back to the start
-    if((int)route.size() == n){
+    if(route.size() == n){
         if(distance[current][0] > 0 && currentCost + distance[current][0] < bestCost){
             bestCost = currentCost + distance[current][0];
             bestRoute = route;
@@ -60,8 +60,9 @@ void searchRoute(const vector<vector<int>>& distance, const vector<int>& minEdge
         visited[next] = false;
         route.pop_back();
     }
-};
+}
 
+//finds the route and prints it
 void deliveryRoute(const vector<vector<int>>& distance){
     int n = distance.size();
 
@@ -70,11 +71,11 @@ void deliveryRoute(const vector<vector<int>>& distance){
     for(int i = 0; i < n; i++){
         int cheapest = INT_MAX;
         for(int j = 0; j < n; j++){
-            if(i != j && distance[i][j] > 0 && distance[i][j] < cheapest){
+            if (i != j && distance[i][j] > 0 && distance[i][j] < cheapest){ //skip diagonal, distance = 0, lower distance
                 cheapest = distance[i][j];
             }
         }
-        if(cheapest != INT_MAX){
+        if (cheapest != INT_MAX){
             minEdge[i] = cheapest;
         }
     }
@@ -92,10 +93,10 @@ void deliveryRoute(const vector<vector<int>>& distance){
         cout << "There is no route that visits every neighborhood once" << endl;
         return;
     }
-    for(int i = 0; i < (int)bestRoute.size(); i++){
+    for(int i = 0; i < bestRoute.size(); i++){
         cout << char('A' + bestRoute[i]) << " -> ";
     }
     cout << "A" << endl;
     cout << "Total distance: " << bestCost << " km" << endl;
-};
+}
 #endif

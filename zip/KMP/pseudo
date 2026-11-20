@@ -1,0 +1,31 @@
+INICIO
+
+//1.datos
+texto = donde se busca
+patron = lo que se busca
+
+//2.crear el arreglo lps
+lps[0..m-1] = 0
+len = 0
+para k = 1 hasta m-1:
+    mientras len > 0 y patron[k] != patron[len]:
+        len = lps[len-1] //regresar
+    si patron[k] == patron[len]:
+        len = len + 1
+    lps[k] = len
+
+//3.buscar el patron en el texto
+j = 0
+para i = 0 hasta n-1:
+    mientras j > 0 y texto[i] != patron[j]:
+        j = lps[j-1] //regresar sin mover i
+    si texto[i] == patron[j]:
+        j = j + 1
+    si j == m: //se encontro todo el patron
+        mostrar true y la posicion
+        terminar
+
+//4.no se encontro
+mostrar false
+
+FIN

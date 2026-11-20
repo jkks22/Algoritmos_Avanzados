@@ -31,50 +31,50 @@ using namespace std;
 
 //reads an N x N matrix from the file
 vector<vector<int>> readMatrix(ifstream& file, int n){
-    vector<vector<int>> matrix(n, vector<int>(n, 0));
+    vector<vector<int>> matrix(n, vector<int>(n, 0));  //"default matrix" only with zeros
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
-            file >> matrix[i][j];
+            file >> matrix[i][j];  //fill the matrix
         }
     }
     return matrix;
-};
+}
 
 //reads one ordered pair of the form (x,y), returns false when there are no more
 bool readPoint(ifstream& file, pair<double, double>& point){
     char open, comma, close;
     return (file >> open >> point.first >> comma >> point.second >> close) && open == '(' && comma == ',' && close == ')';
-};
+}
 
 int main(){
-    ifstream file("input.txt");
-    if(!file){
+    ifstream file("input.txt");  //open file
+    if(!file){  //error
         cout << "Can't open input.txt" << endl;
         return 1;
     }
 
     int n;
-    if(!(file >> n) || n < 2 || n > 26){ //cities are named A..Z
-        cout << "N must be between 2 and 26" << endl;
+    if (!(file >> n) || n < 2 || n > 26){ //if there isn't any number, are less than 2 neighborhoods or more than 26
+        cout << "N must be between 2 and 26" << endl;  //error
         return 1;
     }
-    vector<vector<int>> distance = readMatrix(file, n);
+    vector<vector<int>> distance = readMatrix(file, n);  //everything ok, read the matrix
 
     vector<pair<double, double>> exchanges;
     pair<double, double> point;
-    for(int i = 0; i < n && readPoint(file, point); i++){
+    for(int i = 0; i < n && readPoint(file, point); i++){  //saves every server
         exchanges.push_back(point);
     }
     vector<pair<double, double>> contracts;
-    while(readPoint(file, point)){
+    while(readPoint(file, point)){  //saves every new contract
         contracts.push_back(point);
     }
 
-    if(!file.eof() || (int)exchanges.size() != n){
+    if(!file.eof() || exchanges.size() != n){  //error in txt
         cout << "input.txt does not have the expected format" << endl;
         return 1;
     }
-
+    //print
     cout << "--- Part 1. fiber wiring: ---" << endl;
     fiberWiring(distance);
     cout << endl;
@@ -84,7 +84,7 @@ int main(){
     cout << endl;
 
     cout << "--- Part 3. nearest exchange: ---" << endl;
-    for(int i = 0; i < (int)contracts.size(); i++){
+    for(int i = 0; i < contracts.size(); i++){
         nearestExchange(exchanges, contracts[i]);
     }
     cout << endl;

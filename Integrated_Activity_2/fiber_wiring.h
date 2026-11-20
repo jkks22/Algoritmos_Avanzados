@@ -18,11 +18,11 @@ using namespace std;
 void fiberWiring(const vector<vector<int>>& distance){
     int n = distance.size();
 
-    //~ step 1: save every edge as {weight, from, to}, only once because the graph is not directed
+    //~ step 1: save every edge (weight, from, to)
     vector<vector<int>> edges;
-    for(int i = 0; i < n; i++){
-        for(int j = i + 1; j < n; j++){
-            if(distance[i][j] > 0){ //0 means there is no cable possible
+    for (int i = 0; i < n; i++){
+        for (int j = i + 1; j < n; j++){  //so we don't duplicate edges
+            if( distance[i][j] > 0){ //0 means there is no cable possible
                 edges.push_back({distance[i][j], i, j});
             }
         }
@@ -31,29 +31,30 @@ void fiberWiring(const vector<vector<int>>& distance){
     //~ step 2: sort the edges from cheapest to priciest
     sort(edges.begin(), edges.end());
 
-    //~ step 3: at the start every neighborhood is in its own group
+    //~ step 3: at the start every neighborhood is not connected
+    //if 2 neighborhoods are in the same group, they are connected
     vector<int> group(n);
-    for(int i = 0; i < n; i++){
+    for (int i = 0; i < n; i++){
         group[i] = i;
     }
 
     //~ step 4: take every edge that joins two different groups
     int totalKm = 0;
-    for(int e = 0; e < (int)edges.size(); e++){
-        int weight = edges[e][0];
+    for (int e = 0; e < edges.size(); e++){
+        int weight = edges[e][0]; //every value to its own variable
         int a = edges[e][1];
         int b = edges[e][2];
 
-        if(group[a] == group[b]){ //already connected, the edge would make a cycle
+        if (group[a] == group[b]){ //already connected
             continue;
         }
 
         cout << "(" << char('A' + a) << "," << char('A' + b) << ")" << endl;
         totalKm += weight;
 
-        int oldGroup = group[b]; //everyone in b's group now belongs to a's group
-        for(int i = 0; i < n; i++){
-            if(group[i] == oldGroup){
+        int groupToMove = group[b]; //join both groups
+        for (int i = 0; i < n; i++){
+            if (group[i] == groupToMove){
                 group[i] = group[a];
             }
         }

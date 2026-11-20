@@ -46,6 +46,7 @@ int tsp(int current, int currentCost, int level, int start) {
 
 //~ returns the cost of the best route found so far
 int bestRouteCost() {
+    if (bestRoute.empty()) return 0; // no route found
     int total = 0;
     for (int i = 0; i < bestRoute.size() - 1; i++) {
         total += cost[bestRoute[i]][bestRoute[i + 1]];

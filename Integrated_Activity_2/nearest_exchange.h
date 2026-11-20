@@ -13,17 +13,17 @@ There is not necessarily one exchange for each neighborhood.
 #include <cmath>
 using namespace std;
 
-//^ Euclidean distance (linear search)
+//^ Euclidean distance 
 
 void nearestExchange(const vector<pair<double, double>>& exchanges, pair<double, double> contract){
     //~ step 1: compare the contract with every exchange and keep the closest one
     int closest = 0;
     double minDistance = INFINITY;
-    for(int i = 0; i < (int)exchanges.size(); i++){
-        double dx = exchanges[i].first - contract.first;
-        double dy = exchanges[i].second - contract.second;
-        double distance = sqrt(dx * dx + dy * dy);
-        if(distance < minDistance){ //new closest exchange
+    for (int i = 0; i < exchanges.size(); i++){
+        double dx = exchanges[i].first - contract.first;  //distance in x
+        double dy = exchanges[i].second - contract.second;  //disrance in y
+        double distance = sqrt(dx * dx + dy * dy);  //linear distance
+        if (distance < minDistance){ //the new distance is lower than the last saved?
             minDistance = distance;
             closest = i;
         }
@@ -33,5 +33,5 @@ void nearestExchange(const vector<pair<double, double>>& exchanges, pair<double,
     cout << "Contract (" << contract.first << "," << contract.second << ") -> exchange ("
          << exchanges[closest].first << "," << exchanges[closest].second << "), distance: "
          << minDistance << endl;
-};
+}
 #endif
